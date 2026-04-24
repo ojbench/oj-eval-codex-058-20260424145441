@@ -228,6 +228,9 @@ public:
         memset(pm.name, 0, sizeof(pm.name));
         strncpy(pm.name, name, sizeof(pm.name)-1);
         pm.types = tv;
+        // enforce unique id and unique name
+        if (byId.find(id) != byId.end()) return false;
+        if (nameToId.find(string(pm.name)) != nameToId.end()) return false;
         bool inserted = byId.emplace(id, pm).second;
         if (!inserted) return false;
         nameToId[string(pm.name)] = id;
